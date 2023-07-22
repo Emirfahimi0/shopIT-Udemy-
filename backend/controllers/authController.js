@@ -160,13 +160,13 @@ exports.updatePassword = catchAsyncErrors(async (req, res, next) =>{
 
   // Check previous user's password
 
-  const isPasswordMatched = await user.comparePassword(req.body.currentPassword);
+  const isPasswordMatched = await user.comparePassword(req.body.oldPassword);
     
   if(!isPasswordMatched){
     return next(new ErrorHandler("Current password is incorrect", 401));
   }
 
-  user.password = req.body.newPassword;
+  user.password = req.body.password;
   await user.save();
 
   sendToken(user,200,res)
