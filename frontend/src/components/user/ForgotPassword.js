@@ -19,7 +19,7 @@ export const ForgotPassword = ({history}) => {
             alert.error(error)
         }
         if (message) {
-            alert.message(message)
+            alert.success(message)
             history.push('/me')
         }
     },[message,error,dispatch,alert])
@@ -27,7 +27,7 @@ export const ForgotPassword = ({history}) => {
     const submitHandler = (e)=>{
         e.preventDefault();
 
-        const formData = new formData();
+        const formData = new FormData();
         formData.set('email',email)
 
         dispatch(forgotPassword(formData))

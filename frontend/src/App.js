@@ -19,6 +19,7 @@ import ProtectedRoute from './components/Route/ProtectedRoute';
 import { loadUser, } from './actions/userActions'
 import store from './store'
 import ForgotPassword from './components/user/ForgotPassword';
+import { NewPassword } from './components/user/NewPassword';
 
 
 function App() {
@@ -35,10 +36,10 @@ function App() {
        <Route path = "/" component={Home} exact />
        <Route path = "/search/:keyword" component={Home}  />
        <Route path = "/product/:id" component={productDetails} exact />
-
        <Route path = "/login" component={Login}  />
        <Route path = "/register" component={Register}  />
        <Route path = "/password/forgot" component={ForgotPassword}  />
+       <Route path = "/password/reset/:token" component={NewPassword}  />
        <ProtectedRoute path = "/me" component={Profile}  exact />
        <ProtectedRoute path="/me/update" component={UpdateProfile} exact />
        <ProtectedRoute path="/password/update" component={UpdatePassword} exact />
