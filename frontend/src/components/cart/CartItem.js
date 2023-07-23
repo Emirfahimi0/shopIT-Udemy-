@@ -5,6 +5,7 @@ import MetaData from '../layout/MetaData'
 
 import { useDispatch, useSelector } from 'react-redux'
 import { addItemToCart,removeItemFromCart } from '../../actions'
+import { formatAmount,formatCurrency } from '../../utils'
 
 
 const CartItem = () => {
@@ -12,6 +13,11 @@ const CartItem = () => {
   const alert = useAlert()
   const dispatch = useDispatch()
   const { cartItems } = useSelector((state) => state.cart)
+
+  const totalUnits = cartItems.reduce((acc, item) =>(acc + formatAmount(item.quantity)),0)
+  const totalPrice = cartItems.reduce((acc, item) =>(acc + formatAmount(item.quantity* item.price)),0)
+  console.log(typeof totalPrice)
+
 
   const handleIncrementQuantityItem = (id, quantity, stock) => {
 
@@ -95,10 +101,10 @@ const CartItem = () => {
                 <h4>Order Summary</h4>
                 <hr />
                 <p>
-                  Subtotal: <span className='order-summary-values'>3 (Units)</span>
+                  Subtotal: <span className='order-summary-values'>{totalUnits} (Units)</span>
                 </p>
                 <p>
-                  Est. total: <span className='order-summary-values'>$765.56</span>
+                  Est. total: <span className='order-summary-values'>{formatCurrency(totalPrice)}</span>
                 </p>
 
                 <hr />
