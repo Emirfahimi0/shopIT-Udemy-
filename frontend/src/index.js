@@ -1,22 +1,21 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import App from "./App";
-import store from "./store";
-import { Provider } from "react-redux";
-import { positions, transitions, Provider as AlertProvider } from "react-alert";
-import  AlertTemplate  from "react-alert-template-basic";
-
+import React from 'react'
+import ReactDOM from 'react-dom'
+import App from './App'
+import store from './store'
+import { Provider } from 'react-redux'
+import { positions, transitions, Provider as AlertProvider } from 'react-alert'
+import AlertTemplate from 'react-alert-template-basic'
 
 const options = {
   timeout: 5000,
   position: positions.TOP,
   transition: transitions.SCALE,
-  offset: "20px",
+  offset: '20px',
   theme: {
-    primary: "green",
-    secondary: "blue",
-  },
-};
+    primary: 'green',
+    secondary: 'blue'
+  }
+}
 
 ReactDOM.render(
   <Provider store={store}>
@@ -24,5 +23,5 @@ ReactDOM.render(
       <App />
     </AlertProvider>
   </Provider>,
-  document.getElementById("root")
-);
+  document.getElementById('root')
+)
