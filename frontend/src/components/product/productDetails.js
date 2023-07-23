@@ -1,16 +1,15 @@
 import React, { Fragment, useEffect, useState, useRef } from 'react'
 import { useAlert } from 'react-alert'
 import { useDispatch, useSelector } from 'react-redux'
-import { getProductsDetails, clearErrors } from '../../actions/productActions'
+import { getProductsDetails, clearErrors, addItemToCart } from '../../actions'
 import Loader from '../layout/Loader'
 import MetaData from '../layout/MetaData'
 import { Carousel } from 'react-bootstrap'
-import { formatAmount } from '../../utils'
 
 const productDetails = ({ match }) => {
   const alert = useAlert()
   const dispatch = useDispatch()
-  const { loading, product, error, productsCount } = useSelector((state) => state.productDetails)
+  const { loading, product, error } = useSelector((state) => state.productDetails)
   const [quantity, setQuantity] = useState(1)
   const quantityRef = useRef(null)
 
@@ -22,9 +21,6 @@ const productDetails = ({ match }) => {
     }
   }, [dispatch, alert, error, match.params.id])
 
-  // console.log(quantityRef.current.value);
-
-  // const count = formatAmount(value)
   const increaseQuantity = () => {
     if (quantity < product.stock) {
       setQuantity(quantity + 1)
@@ -35,6 +31,11 @@ const productDetails = ({ match }) => {
     if (quantity > 1) {
       setQuantity(quantity - 1)
     }
+  }
+
+  const handleAddToCart = () => {
+    dispatch(addItemToCart(match.params.id, quantity))
+    alert.success('Item added to cart')
   }
 
   return (
@@ -82,7 +83,13 @@ const productDetails = ({ match }) => {
                   +
                 </span>
               </div>
-              <button type='button' id='cart_btn' className='btn btn-primary d-inline ml-4'>
+              <button
+                type='button'
+                id='cart_btn'
+                onClick={handleAddToCart}
+                disabled={product.stock === 0}
+                className='btn btn-primary d-inline ml-4'
+              >
                 Add to Cart
               </button>
 

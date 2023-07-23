@@ -10,10 +10,14 @@ const reducer = combineReducers({
   auth: authReducer,
   user: userReducer,
   forgotPassword: forgotPasswordReducer,
-  CartItem: cartReducer,
+  cart: cartReducer,
 })
 
-let initialState = {}
+let initialState = {
+    cart:{
+      cartItems: localStorage.getItem('cartItems') ?
+       JSON.parse(localStorage.getItem('cartItems')) : []}
+}
 
 const middlware = [thunk]
 const store = createStore(reducer, initialState, composeWithDevTools(applyMiddleware(...middlware)))
