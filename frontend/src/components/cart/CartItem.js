@@ -1,21 +1,47 @@
-import React, { Fragment, useState, useRef } from 'react'
+import React, { Fragment,  } from 'react'
 import { useAlert } from 'react-alert'
 import { Link } from 'react-router-dom'
 import MetaData from '../layout/MetaData'
 
 import { useDispatch, useSelector } from 'react-redux'
-import { addItemToCart } from '../../actions'
+import { addItemToCart,removeItemFromCart } from '../../actions'
 
-import Loader from '../layout/Loader'
 
 const CartItem = () => {
+
   const alert = useAlert()
   const dispatch = useDispatch()
-  const {cartItems} = useSelector((state) => state.cart)
+  const { cartItems } = useSelector((state) => state.cart)
+
+  const handleIncrementQuantityItem = (id, quantity, stock) => {
+
+    const qty = quantity + 1
+    if(qty >= stock) return 
+    
+    dispatch(addItemToCart(id,qty)) 
+
+  }
+  
+  const handleDecrementQuantityItem = (id, quantity) => {
+
+    const qty = quantity - 1
+    if(qty <=1) return 
+    
+    dispatch(addItemToCart(id,qty)) 
+  }
+  
+  const handleRemoveItem = (id) => {
+
+    dispatch(removeItemFromCart(id)) 
+
+  }
+
+
   return (
     <Fragment>
       <MetaData title={'Your cart'} />
       {cartItems.length === 0 ? (
+   
         <h2 className='mt-5'>No Items in the cart</h2>
       ) : (
         <Fragment>
@@ -36,7 +62,7 @@ const CartItem = () => {
                         </div>
 
                         <div className='col-5 col-lg-3'>
-                        <Link to={`/product/${item.product}`}>{item.name}</Link>
+                          <Link to={`/product/${item.product}`}>{item.name}</Link>
                         </div>
 
                         <div className='col-4 col-lg-2 mt-4 mt-lg-0'>
@@ -45,15 +71,16 @@ const CartItem = () => {
 
                         <div className='col-4 col-lg-3 mt-4 mt-lg-0'>
                           <div className='stockCounter d-inline'>
-                            <span className='btn btn-danger minus'>-</span>
-                            <input type='number' className='form-control count d-inline' value='1' readOnly />
+                            <span className='btn btn-danger minus' onClick={()=> handleDecrementQuantityItem(item.product,item.quantity)}>-</span>
 
-                            <span className='btn btn-primary plus'>+</span>
+                            <input type='number' className='form-control count d-inline' value={item.quantity} readOnly />
+
+                            <span className='btn btn-primary plus' onClick={()=> handleIncrementQuantityItem(item.product,item.quantity,item.stock)}>+</span>
                           </div>
                         </div>
 
                         <div className='col-4 col-lg-1 mt-4 mt-lg-0'>
-                          <i id='delete_cart_item' className='fa fa-trash btn btn-danger'></i>
+                          <i id='delete_cart_item' className='fa fa-trash btn btn-danger' onClick={()=> handleRemoveItem(item.product)}></i>
                         </div>
                       </div>
                     </div>
