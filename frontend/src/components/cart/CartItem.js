@@ -52,7 +52,7 @@ const CartItem = () => {
       ) : (
         <Fragment>
           <h2 className='mt-5'>
-            Your Cart: <b> My Cart: {cartItems.length} items</b>
+            My Cart: <b> {cartItems.length} items</b>
           </h2>
 
           <div className='row d-flex justify-content-between'>
