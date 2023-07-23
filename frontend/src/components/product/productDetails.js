@@ -1,20 +1,22 @@
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment, useEffect,useState } from "react";
 import { useAlert } from "react-alert";
 import { useDispatch, useSelector } from "react-redux";
 import { getProductsDetails, clearErrors } from "../../actions/productActions";
 import Loader from "../layout/Loader";
 import MetaData from "../layout/MetaData";
 import { Carousel } from "react-bootstrap";
+import { formatAmount } from "../../utils";
 
 
 
 const productDetails = ({ match }) => {
+ 
   const alert = useAlert();
   const dispatch = useDispatch();
   const { loading, product, error, productsCount } = useSelector(
     (state) => state.productDetails
   );
-
+  const [quantity,setQuantity] = useState(1);
   useEffect(() => {
     dispatch(getProductsDetails(match.params.id));
     if (error) {
@@ -22,7 +24,25 @@ const productDetails = ({ match }) => {
       dispatch(clearErrors());
     }
   }, [dispatch, alert, error, match.params.id]);
+  console.log(product.stock)
+  const value = document.getElementById('#stock');
+  const count = formatAmount(value)
+  const increaseQuantity = () => {
 
+     
+      if(count>= product.stock) return 
+     
+      const qty = count + 1;
+    
+      setQuantity(qty)
+  };
+const decreaseQuantity = () => {
+ 
+  if(count <= product.stock) return 
+
+  const qty = count - 1;
+  setQuantity(qty)
+}
   return (
     <Fragment>
       <MetaData title={product.name} />
@@ -65,16 +85,18 @@ const productDetails = ({ match }) => {
 
               <p id="product_price">${product.price} </p>
               <div className="stockCounter d-inline">
-                <span className="btn btn-danger minus">-</span>
+                <span className="btn btn-danger minus"  onClick={decreaseQuantity}>-</span>
 
                 <input
                   type="number"
+                  id="stock"
                   className="form-control count d-inline"
-                  value="1"
+                  value={quantity}
                   readOnly
+                 
                 />
 
-                <span className="btn btn-primary plus">+</span>
+                <span className="btn btn-primary plus"  onClick={increaseQuantity}>+</span>
               </div>
               <button
                 type="button"
