@@ -20,6 +20,7 @@ import store from './store'
 import ForgotPassword from './components/user/ForgotPassword'
 import { NewPassword } from './components/user/NewPassword'
 import CartItem from './components/cart/CartItem'
+import Shipping from './components/cart/Shipping'
 
 function App() {
   useEffect(() => {
@@ -39,6 +40,7 @@ function App() {
           <Route path='/cart' component={CartItem} />
           <Route path='/password/forgot' component={ForgotPassword} />
           <Route path='/password/reset/:token' component={NewPassword} />
+          <ProtectedRoute path='/shipping' component={Shipping} exact />
           <ProtectedRoute path='/me' component={Profile} exact />
           <ProtectedRoute path='/me/update' component={UpdateProfile} exact />
           <ProtectedRoute path='/password/update' component={UpdatePassword} exact />

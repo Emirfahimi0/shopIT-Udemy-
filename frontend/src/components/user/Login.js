@@ -6,7 +6,7 @@ import { useAlert } from 'react-alert'
 import Loader from '../layout/Loader'
 import { login, clearErrors } from '../../actions/userActions'
 
-const Login = ({ history }) => {
+const Login = ({ history, location }) => {
   const alert = useAlert()
   const dispatch = useDispatch()
   const [email, setEmail] = useState('')
@@ -14,9 +14,14 @@ const Login = ({ history }) => {
 
   const { isAuthenticated, error, loading } = useSelector((state) => state.auth)
 
+  const redirect = location.search ? location.search.split('=')[1] : '/'
+
+
   useEffect(() => {
+
+
     if (isAuthenticated) {
-      history.push('/')
+      history.push(redirect)
       //alert.success('You are now logged in');
       //dispatch(clearErrors())
       //window.location.href = '/dashboard'

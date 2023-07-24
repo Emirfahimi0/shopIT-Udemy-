@@ -1,5 +1,4 @@
 import React, { Fragment,  } from 'react'
-import { useAlert } from 'react-alert'
 import { Link } from 'react-router-dom'
 import MetaData from '../layout/MetaData'
 
@@ -8,15 +7,13 @@ import { addItemToCart,removeItemFromCart } from '../../actions'
 import { formatAmount,formatCurrency } from '../../utils'
 
 
-const CartItem = () => {
+const CartItem = ({history}) => {
 
-  const alert = useAlert()
   const dispatch = useDispatch()
   const { cartItems } = useSelector((state) => state.cart)
 
   const totalUnits = cartItems.reduce((acc, item) =>(acc + formatAmount(item.quantity)),0)
   const totalPrice = cartItems.reduce((acc, item) =>(acc + formatAmount(item.quantity* item.price)),0)
-  console.log(typeof totalPrice)
 
 
   const handleIncrementQuantityItem = (id, quantity, stock) => {
@@ -42,6 +39,9 @@ const CartItem = () => {
 
   }
 
+  const checkoutHandler = () => {
+    history.push('/login?redirect=shipping')
+}
 
   return (
     <Fragment>
@@ -108,7 +108,7 @@ const CartItem = () => {
                 </p>
 
                 <hr />
-                <button id='checkout_btn' className='btn btn-primary btn-block'>
+                <button id='checkout_btn' className='btn btn-primary btn-block' onClick={checkoutHandler}>
                   Check out
                 </button>
               </div>
